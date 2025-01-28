@@ -56,19 +56,19 @@
         <tbody>
             <tr *ngFor="let estudiante of estudiantes">
                 <td>
-                    <!-- Editable si 'editing' es true -->
+
                     <input *ngIf="estudiante.editing" [value]="estudiante.nombre || ''"
                         (input)="onInputChange(estudiante, 'nombre', $event)" />
                     <span *ngIf="!estudiante.editing">{{ estudiante.nombre }}</span>
                 </td>
                 <td>
-                    <!-- Editable si 'editing' es true -->
+
                     <input *ngIf="estudiante.editing" [value]="estudiante.apellido || ''"
                         (input)="onInputChange(estudiante, 'apellido', $event)" />
                     <span *ngIf="!estudiante.editing">{{ estudiante.apellido }}</span>
                 </td>
                 <td>
-                    <!-- Editable si 'editing' es true -->
+
                     <input *ngIf="estudiante.editing" [value]="estudiante.id || ''"
                         (input)="onInputChange(estudiante, 'id', $event)" />
                     <span *ngIf="!estudiante.editing">{{ estudiante.id }}</span>
