@@ -1,0 +1,92 @@
+<mat-drawer-container class="example-container">
+
+    <mat-drawer #drawer class="example-sidenav" mode="side">
+        <mat-nav-list>
+
+            <a routerLink="/dashboard" mat-list-item>Estudiantes</a>
+
+            <a routerLink="/maestros" mat-list-item>Maestros</a>
+            <a routerLink="/cursos" mat-list-item>Cursos</a>
+
+        </mat-nav-list>
+    </mat-drawer>
+
+    <div class="example-sidenav-content">
+        <mat-toolbar (drawerToggle)="drawer.toggle()">
+            <button (click)="drawer.toggle()" mat-icon-button class="example-icon"
+                aria-label="Example icon-button with menu icon">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <span>My App</span>
+            <span class="example-spacer"></span>
+        </mat-toolbar>
+        <p appLetraTamano20>Crear curso</p>
+
+
+        <form [formGroup]="cursosForm" (ngSubmit)="onSubmit()" class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Nombre</mat-label>
+                        <input formControlName="nombre" matInput placeholder="Placeholder">
+
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-3">
+
+                    <button type="button" mat-flat-button [matMenuTriggerFor]="menu">Curso</button>
+
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="onSelectCurso('Javascript')">Javascript</button>
+                        <button mat-menu-item (click)="onSelectCurso('Angular')">Angular</button>
+                        <button mat-menu-item (click)="onSelectCurso('React')">React</button>
+                    </mat-menu>
+                    <div *ngIf="cursoSeleccionado">
+                        <p>Haz seleccionado el curso: <strong>{{ cursoSeleccionado }}</strong></p>
+                    </div>
+                </div>
+            </div>
+            <div (ngSubmit)="onSubmit()">
+                <button mat-raised-button>Enviar</button>
+            </div>
+        </form>
+
+
+        <p appLetraTamano20>Lista de cursos</p>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>ID</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let curso of Cursos">
+                    <td>
+
+                        <input *ngIf="curso.editing" [value]="curso.nombre || ''"
+                            (input)="onInputChange(curso, 'nombre', $event)" />
+                        <span *ngIf="!curso.editing">{{ curso.nombre }}</span>
+                    </td>
+                    <td>
+
+                        <input *ngIf="curso.editing" [value]="curso.id || ''"
+                            (input)="onInputChange(curso, 'id', $event)" />
+                        <span *ngIf="!curso.editing">{{ curso.id }}</span>
+                    </td>
+
+                    <td>
+                        <button (click)="onDelete(curso.id)" mat-icon-button>
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                        <button (click)="onEdit(curso)" class="edit">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>

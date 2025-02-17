@@ -5,13 +5,15 @@ import { LetraTamano20Directive } from './directivas/letra-tamano20.directive';
 
 
 
+
 @NgModule({
   declarations: [
     FullNamePipe,
     LetraTamano20Directive
   ],
   imports: [
-    CommonModule
+    CommonModule,
+
   ],
   exports: [FullNamePipe, LetraTamano20Directive]
 })

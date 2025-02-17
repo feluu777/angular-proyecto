@@ -1,12 +1,15 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { generarStringAleatorio } from '../shared/utils';
+import { generarStringAleatorio } from '../../shared/utils';
+import { MatDialog } from '@angular/material/dialog';
 
 interface Estudiante {
   nombre: string;
   apellido: string;
   id: string;
-  editing: boolean;  // Añadimos la propiedad `editing`
+  curso: string;
+  editing: boolean;
+
 }
 
 @Component({
@@ -16,25 +19,28 @@ interface Estudiante {
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-  drawerOpen = false;
-  toggleSidenav() {
-    this.drawerOpen = !this.drawerOpen;
-  }
 
-  displayedColumns: string[] = ['nombre', 'apellido', 'id', 'actions'];
   showFiller = false;
+
+
+  cursoSeleccionado: string = '';
+
+
+  displayedColumns: string[] = ['nombre', 'apellido', 'id', 'curso', 'actions',];
+
   estudiantesForm: FormGroup;
 
   estudiantes: Estudiante[] = [
-    { nombre: 'Juan', apellido: 'Pérez', id: 'AIqFFUZU', editing: false },
-    { nombre: 'David', apellido: 'Gallegos', id: 'jeSmYR5e', editing: false }
+    { nombre: 'Juan', apellido: 'Pérez', id: 'AIqFFUZU', curso: 'Javascript', editing: false },
+    { nombre: 'David', apellido: 'Gallegos', id: 'jeSmYR5e', curso: 'Javascript', editing: false }
   ];
 
   constructor(private fb: FormBuilder) {
     this.estudiantesForm = this.fb.group({
       nombre: [''],
       apellido: [''],
-      id: ['']
+      id: [''],
+      curso: ['']
     });
   }
 
@@ -42,26 +48,32 @@ export class DashboardComponent {
     const nuevoEstudiante: Estudiante = {
       ...this.estudiantesForm.value,
       id: generarStringAleatorio(8),
-      editing: false  // Aseguramos que el nuevo estudiante no esté en modo edición
+      editing: false
     };
     this.estudiantes.push(nuevoEstudiante);
+    this.estudiantesForm.reset();
   }
 
   onDelete(id: string) {
     this.estudiantes = this.estudiantes.filter((el) => el.id !== id);
   }
 
-  // Función para alternar el estado de edición
+
   onEdit(estudiante: Estudiante) {
     estudiante.editing = !estudiante.editing;
   }
 
-  onInputChange(estudiante: Estudiante, campo: 'nombre' | 'apellido' | 'id', event: Event) {
+  onInputChange(estudiante: Estudiante, campo: 'nombre' | 'apellido' | 'id' | 'curso', event: Event) {
     const input = event.target as HTMLInputElement;
     if (input) {
-      // Aseguramos que el valor no sea nulo o undefined
-      estudiante[campo] = input.value || '';
+
+      estudiante[campo] = input.value || ''
     }
+  }
+
+  onSelectCurso(curso: string) {
+    this.cursoSeleccionado = curso;
+    this.estudiantesForm.get('curso')?.setValue(curso);
   }
 
 }
