@@ -1,0 +1,18 @@
+<body>
+    <div class="container">
+        <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+            <p>
+                <mat-form-field class="inputs" appearance="fill">
+                    <mat-label>Email</mat-label>
+                    <input formControlName="Email" matInput placeholder="Email">
+                </mat-form-field>
+                <mat-form-field class="inputs" appearance="fill">
+                    <mat-label>Contraseña</mat-label>
+                    <input formControlName="Contraseña" matInput placeholder="Contraseña">
+                </mat-form-field>
+            </p>
+
+            <button type="submit" mat-flat-button>Enviar</button>
+        </form>
+    </div>
+</body>

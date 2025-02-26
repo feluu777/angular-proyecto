@@ -2,11 +2,11 @@
 
     <mat-drawer #drawer class="example-sidenav" mode="side">
         <mat-nav-list>
-
-            <a routerLink="/dashboard" mat-list-item>Estudiantes</a>
-
-            <a routerLink="/maestros" mat-list-item>Maestros</a>
-            <a routerLink="/cursos" mat-list-item>Cursos</a>
+            <a routerLink="/pages/dashboard" mat-list-item>Estudiantes</a>
+            <a routerLink="/pages/maestros" mat-list-item>Maestros</a>
+            <a routerLink="/pages/cursos" mat-list-item>Cursos</a>
+            <a routerLink="/users/users" mat-list-item>Usuarios</a>
+            <button (click)="Logout()" mat-button>Cerrar Sesión</button>
 
         </mat-nav-list>
     </mat-drawer>

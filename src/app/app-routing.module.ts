@@ -3,21 +3,31 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 import { MaestrosComponent } from './pages/maestros/maestros.component';
-import { CursosComponent } from './pages/cursos/cursos.component';
+
+import { authGuard } from './core/guards/auth.guard';
+import { LoginComponent } from './login/login/login.component';
+import { adminGuard } from './core/guards/admin.guard';
 
 const routes: Routes = [
   {
-    path: 'dashboard',
-    component: DashboardComponent
+    path: 'pages',
+    loadChildren: () =>
+      import('./pages/pages.module').then((m) => m.PagesModule)
   },
   {
-    path: 'maestros',
-    component: MaestrosComponent
+    path: 'login',
+    component: LoginComponent
   },
   {
-    path: 'cursos',
-    component: CursosComponent
+    path: '',
+    component: LoginComponent
   },
+  {
+    path: 'users',
+    canActivate: [adminGuard],
+    loadChildren: () => import('./pages/users/users.module').then(m => m.UsersModule)
+  }
+
 
 ];
 

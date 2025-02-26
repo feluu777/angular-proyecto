@@ -3,11 +3,11 @@
     <mat-drawer #drawer class="example-sidenav" mode="side">
         <mat-nav-list>
 
-            <a routerLink="/estudiantes" mat-list-item>Estudiantes</a>
-
-            <a routerLink="/maestros" mat-list-item>Maestros</a>
-            <a routerLink="/cursos" mat-list-item>Cursos</a>
-
+            <a routerLink="/pages/dashboard" mat-list-item>Estudiantes</a>
+            <a routerLink="/pages/maestros" mat-list-item>Maestros</a>
+            <a routerLink="/pages/cursos" mat-list-item>Cursos</a>
+            <a routerLink="/users/users" mat-list-item>Usuarios</a>
+            <button (click)="Logout()" mat-button>Cerrar Sesión</button>
         </mat-nav-list>
     </mat-drawer>
 
@@ -53,7 +53,7 @@
                 </div>
             </div>
             <div (ngSubmit)="onSubmit()">
-                <button mat-raised-button>Enviar</button>
+                <button class="error-message" mat-raised-button>Enviar</button>
             </div>
         </form>
 
@@ -111,5 +111,6 @@
 
 
 
-
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo reiciendis labore placeat fugiat laudantium vel
+    eveniet quas ex esse alias aperiam quisquam, dicta nulla suscipit non. Voluptatibus vitae accusamus possimus?
 </mat-drawer-container>

@@ -2,11 +2,11 @@
 
     <mat-drawer #drawer class="example-sidenav" mode="side">
         <mat-nav-list>
-
-            <a routerLink="/dashboard" mat-list-item>Estudiantes</a>
-
-            <a routerLink="/maestros" mat-list-item>Maestros</a>
-            <a routerLink="/cursos" mat-list-item>Cursos</a>
+            <a routerLink="/pages/dashboard" mat-list-item>Estudiantes</a>
+            <a routerLink="/pages/maestros" mat-list-item>Maestros</a>
+            <a routerLink="/pages/cursos" mat-list-item>Cursos</a>
+            <a routerLink="/users/users" mat-list-item>Usuarios</a>
+            <button (click)="Logout()" mat-button>Cerrar Sesión</button>
 
         </mat-nav-list>
     </mat-drawer>
@@ -20,7 +20,7 @@
             <span>My App</span>
             <span class="example-spacer"></span>
         </mat-toolbar>
-        <p appLetraTamano20>Crear curso</p>
+        <p appLetraTamano20>Formulario de estudiantes</p>
 
 
         <form [formGroup]="cursosForm" (ngSubmit)="onSubmit()" class="container">
@@ -48,12 +48,12 @@
                 </div>
             </div>
             <div (ngSubmit)="onSubmit()">
-                <button mat-raised-button>Enviar</button>
+                <button class="error-message" mat-raised-button>Enviar</button>
             </div>
         </form>
 
 
-        <p appLetraTamano20>Lista de cursos</p>
+        <p appLetraTamano20>Lista de estudiantes</p>
 
         <table class="table table-striped">
             <thead>
@@ -71,13 +71,13 @@
                             (input)="onInputChange(curso, 'nombre', $event)" />
                         <span *ngIf="!curso.editing">{{ curso.nombre }}</span>
                     </td>
-                    <td>
 
+
+                    <td>
                         <input *ngIf="curso.editing" [value]="curso.id || ''"
                             (input)="onInputChange(curso, 'id', $event)" />
                         <span *ngIf="!curso.editing">{{ curso.id }}</span>
                     </td>
-
                     <td>
                         <button (click)="onDelete(curso.id)" mat-icon-button>
                             <mat-icon>delete</mat-icon>
@@ -90,3 +90,4 @@
             </tbody>
         </table>
     </div>
+</mat-drawer-container>

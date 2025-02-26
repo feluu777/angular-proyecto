@@ -24,15 +24,16 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 
 
 
+
+
 @NgModule({
   declarations: [
     DashboardComponent,
-    MaestrosComponent
+    MaestrosComponent,
   ],
   imports: [
     CommonModule,
     MatIconModule,
-    MatSidenavModule,
     MatButtonModule,
     MatToolbarModule,
     MatFormFieldModule,
@@ -42,7 +43,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatListModule,
     RouterModule,
     MatDialogModule,
-    MatMenuModule
+    MatMenuModule,
+    MatSidenavModule
+
   ]
 })
 export class DashboardModule {

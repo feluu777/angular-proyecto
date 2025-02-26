@@ -1,41 +1,36 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { CursoService } from '../../core/services/course.service';
+import { Curso } from '../../core/models/cursos';
 import { generarStringAleatorio } from '../../shared/utils';
+import { AuthService } from '../../core/services/auth.services';
 
-
-
-interface Curso {
-  nombre: string;
-  id: string;
-  editing: boolean;
-
-}
 
 @Component({
   selector: 'app-cursos',
   standalone: false,
-
   templateUrl: './cursos.component.html',
-  styleUrl: './cursos.component.scss'
+  styleUrls: ['./cursos.component.scss']
 })
 export class CursosComponent {
+
   cursoSeleccionado: string = '';
-
-  Cursos: Curso[] = [
-    { nombre: 'JS', id: 'rC45Czu9', editing: false, },
-    { nombre: 'JS', id: 'FlQUuEqB', editing: false, }
-  ];
-
+  Cursos: Curso[] = [];
   cursosForm: FormGroup;
 
-
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private authservice: AuthService
+  ) {
     this.cursosForm = this.fb.group({
       nombre: [''],
-      id: [''],
-
+      id: ['']
     });
   }
+
+
+
 
   onSubmit() {
     const nuevoCurso: Curso = {
@@ -46,20 +41,16 @@ export class CursosComponent {
     this.Cursos.push(nuevoCurso);
   }
 
-
   onInputChange(curso: Curso, campo: 'nombre' | 'id', event: Event) {
     const input = event.target as HTMLInputElement;
     if (input) {
-
-      curso[campo] = input.value || ''
+      curso[campo] = input.value || '';
     }
   }
-
 
   onDelete(id: string) {
     this.Cursos = this.Cursos.filter((el) => el.id !== id);
   }
-
 
   onEdit(curso: Curso) {
     curso.editing = !curso.editing;
@@ -70,6 +61,8 @@ export class CursosComponent {
     this.cursosForm.get('curso')?.setValue(curso);
   }
 
+  Logout(): void {
+    this.authservice.Logout()
+  }
+
 }
-
-

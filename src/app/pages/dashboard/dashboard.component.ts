@@ -2,6 +2,9 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { generarStringAleatorio } from '../../shared/utils';
 import { MatDialog } from '@angular/material/dialog';
+import { AuthService } from '../../core/services/auth.services';
+
+
 
 interface Estudiante {
   nombre: string;
@@ -12,6 +15,7 @@ interface Estudiante {
 
 }
 
+
 @Component({
   selector: 'app-dashboard',
   standalone: false,
@@ -19,7 +23,6 @@ interface Estudiante {
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-
   showFiller = false;
 
 
@@ -35,7 +38,7 @@ export class DashboardComponent {
     { nombre: 'David', apellido: 'Gallegos', id: 'jeSmYR5e', curso: 'Javascript', editing: false }
   ];
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private authService: AuthService) {
     this.estudiantesForm = this.fb.group({
       nombre: [''],
       apellido: [''],
@@ -74,6 +77,10 @@ export class DashboardComponent {
   onSelectCurso(curso: string) {
     this.cursoSeleccionado = curso;
     this.estudiantesForm.get('curso')?.setValue(curso);
+  }
+
+  Logout(): void {
+    this.authService.Logout()
   }
 
 }

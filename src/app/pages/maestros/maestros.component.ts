@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { generarStringAleatorio } from '../../shared/utils';
+import { AuthService } from '../../core/services/auth.services';
 interface Maestro {
   nombre: string;
   apellido: string;
@@ -29,7 +30,7 @@ export class MaestrosComponent {
   maestrosForm: FormGroup;
 
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private authservice: AuthService) {
     this.maestrosForm = this.fb.group({
       nombre: [''],
       apellido: [''],
@@ -69,6 +70,10 @@ export class MaestrosComponent {
   onSelectCurso(curso: string) {
     this.cursoSeleccionado = curso;
     this.maestrosForm.get('curso')?.setValue(curso);
+  }
+
+  Logout(): void {
+    this.authservice.Logout()
   }
 
 }
