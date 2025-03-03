@@ -4,6 +4,8 @@ import { BehaviorSubject, Observable, map } from "rxjs";
 import { users } from "../users";
 import { generarStringAleatorio } from "../../shared/utils";
 import { Router } from '@angular/router';
+import { Store } from "@ngrx/store";
+import { AuthActions } from "../../store/auth/auth.action";
 
 
 
@@ -28,7 +30,7 @@ export class AuthService {
     private _authUser$ = new BehaviorSubject<null | users>(null);
     authUser$ = this._authUser$.asObservable();
 
-    constructor(private router: Router) { }
+    constructor(private router: Router, private store: Store) { }
 
     Logout(): void {
         localStorage.clear()
@@ -49,6 +51,7 @@ export class AuthService {
             return;
         }
         localStorage.setItem('accessToken', loginResult.accessToken)
+        this.store.dispatch(AuthActions.setAuthUser({ user: loginResult }))
         this._authUser$.next(loginResult);
         this.router.navigate(['/pages/dashboard']);
     }

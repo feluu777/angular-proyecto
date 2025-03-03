@@ -20,6 +20,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { StoreModule } from '@ngrx/store';
+import { rootReducer } from '../../store';
 
 
 
@@ -44,7 +46,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     RouterModule,
     MatDialogModule,
     MatMenuModule,
-    MatSidenavModule
+    MatSidenavModule,
+    StoreModule.forRoot(rootReducer, {})
 
   ]
 })

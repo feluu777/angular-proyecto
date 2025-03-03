@@ -1,11 +1,14 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { CursoService } from '../../core/services/course.service';
-import { Curso } from '../../core/models/cursos';
 import { generarStringAleatorio } from '../../shared/utils';
+import { CourseService } from '../../core/services/course.service';
 import { AuthService } from '../../core/services/auth.services';
 
+interface Curso {
+  name: string;
+  id: string;
+  editing: boolean;
+}
 
 @Component({
   selector: 'app-cursos',
@@ -13,7 +16,7 @@ import { AuthService } from '../../core/services/auth.services';
   templateUrl: './cursos.component.html',
   styleUrls: ['./cursos.component.scss']
 })
-export class CursosComponent {
+export class CursosComponent implements OnInit {
 
   cursoSeleccionado: string = '';
   Cursos: Curso[] = [];
@@ -21,48 +24,61 @@ export class CursosComponent {
 
   constructor(
     private fb: FormBuilder,
-    private authservice: AuthService
+    private authservice: AuthService,
+    private cursoService: CourseService
   ) {
     this.cursosForm = this.fb.group({
-      nombre: [''],
+      name: [''],
       id: ['']
     });
   }
 
+  ngOnInit(): void {
+    this.cargarCursos();
+  }
 
+  cargarCursos(): void {
+    this.cursoService.getCursos().subscribe((data) => {
+      this.Cursos = data;
+    });
+  }
 
-
-  onSubmit() {
+  onSubmit(): void {
     const nuevoCurso: Curso = {
       ...this.cursosForm.value,
       id: generarStringAleatorio(6),
       editing: false
     };
-    this.Cursos.push(nuevoCurso);
+
+    this.cursoService.addCurso(nuevoCurso).subscribe((curso) => {
+      this.Cursos.push(curso);
+      this.cursosForm.reset();
+    });
   }
 
-  onInputChange(curso: Curso, campo: 'nombre' | 'id', event: Event) {
+  onInputChange(curso: Curso, campo: 'name' | 'id', event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input) {
       curso[campo] = input.value || '';
     }
   }
 
-  onDelete(id: string) {
-    this.Cursos = this.Cursos.filter((el) => el.id !== id);
+  onDelete(id: string): void {
+    this.cursoService.deleteCourseById(id).subscribe(() => {
+      this.Cursos = this.Cursos.filter((el) => el.id !== id);
+    });
   }
 
-  onEdit(curso: Curso) {
+  onEdit(curso: Curso): void {
     curso.editing = !curso.editing;
   }
 
-  onSelectCurso(curso: string) {
+  onSelectCurso(curso: string): void {
     this.cursoSeleccionado = curso;
     this.cursosForm.get('curso')?.setValue(curso);
   }
 
   Logout(): void {
-    this.authservice.Logout()
+    this.authservice.Logout();
   }
-
 }

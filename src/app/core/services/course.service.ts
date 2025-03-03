@@ -1,37 +1,26 @@
-import { Injectable } from "@angular/core";
-import { generarStringAleatorio } from "../../shared/utils";
-import { delay, Observable, of } from 'rxjs';
-import { Curso } from '../models/cursos'
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Curso } from '../models/cursos';
+import { environment } from '../../../environments/environment';
 
-let MY_FAKE_DATABASE: Curso[] = [
-    {
-        id: generarStringAleatorio(6),
-        nombre: 'JavaScript',
-        editing: false,
-        curso: ''
-    },
-    {
-        id: generarStringAleatorio(6),
-        nombre: 'React',
-        editing: false,
-        curso: ''
-    },
-    {
-        id: generarStringAleatorio(6),
-        nombre: 'HTML',
-        editing: false,
-        curso: ''
-    },
-]
+@Injectable({
+    providedIn: 'root'
+})
+export class CourseService {
+    private apiUrl = `${environment.baseApiUrl}/courses`;
 
-@Injectable({ providedIn: 'root' })
-export class CursoService {
+    constructor(private http: HttpClient) { }
 
     getCursos(): Observable<Curso[]> {
-        return of([...MY_FAKE_DATABASE])
+        return this.http.get<Curso[]>(this.apiUrl);
     }
-    deleteCourseById(id: String): Observable<Curso[]> {
-        MY_FAKE_DATABASE = MY_FAKE_DATABASE.filter(Curso => Curso.id != id)
-        return this.getCursos()
+
+    addCurso(curso: Curso): Observable<Curso> {
+        return this.http.post<Curso>(this.apiUrl, curso);
+    }
+
+    deleteCourseById(id: string): Observable<any> {
+        return this.http.delete(`${this.apiUrl}/${id}`);
     }
 }

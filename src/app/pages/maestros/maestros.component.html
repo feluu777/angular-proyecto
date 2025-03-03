@@ -27,14 +27,14 @@
                 <div class="col-md-3">
                     <mat-form-field appearance="fill">
                         <mat-label>Nombre</mat-label>
-                        <input formControlName="nombre" matInput placeholder="Placeholder">
+                        <input formControlName="name" matInput placeholder="Placeholder">
 
                     </mat-form-field>
                 </div>
                 <div class="col-md-3">
                     <mat-form-field appearance="fill">
                         <mat-label>Apellido</mat-label>
-                        <input formControlName="apellido" matInput placeholder="Placeholder">
+                        <input formControlName="lastName" matInput placeholder="Placeholder">
                     </mat-form-field>
                 </div>
                 <div class="col-md-3">
@@ -70,31 +70,23 @@
             <tbody>
                 <tr *ngFor="let maestro of Maestros">
                     <td>
-
-                        <input mat-raised-button *ngIf="maestro.editing" [value]="maestro.nombre || ''"
-                            (input)="onInputChange(maestro, 'nombre', $event)" />
-                        <span *ngIf="!maestro.editing">{{ maestro.nombre }}</span>
+                        <input *ngIf="maestro.editing" [value]="maestro.name || ''"
+                            (input)="onInputChange(maestro, 'name', $event)" />
+                        <span *ngIf="!maestro.editing">{{ maestro.name }}</span>
                     </td>
                     <td>
-
-                        <input *ngIf="maestro.editing" [value]="maestro.apellido || ''"
-                            (input)="onInputChange(maestro, 'apellido', $event)" />
-                        <span *ngIf="!maestro.editing">{{ maestro.apellido }}</span>
+                        <input *ngIf="maestro.editing" [value]="maestro.lastName || ''"
+                            (input)="onInputChange(maestro, 'lastName', $event)" />
+                        <span *ngIf="!maestro.editing">{{ maestro.lastName }}</span>
                     </td>
                     <td>
-
-                        <input *ngIf="maestro.editing" [value]="maestro.id || ''"
-                            (input)="onInputChange(maestro, 'id', $event)" />
-                        <span *ngIf="!maestro.editing">{{ maestro.id }}</span>
+                        <span>{{ maestro.id }}</span> <!-- El ID no debe ser editable -->
                     </td>
-
                     <td>
-
-                        <input *ngIf="maestro.editing" [value]="maestro.curso || ''"
-                            (input)="onInputChange(maestro, 'curso', $event)" />
-                        <span *ngIf="!maestro.editing">{{ maestro.curso }}</span>
+                        <input *ngIf="maestro.editing" [value]="maestro.course || ''"
+                            (input)="onInputChange(maestro, 'course', $event)" />
+                        <span *ngIf="!maestro.editing">{{ maestro.course }}</span>
                     </td>
-
                     <td>
                         <button (click)="onDelete(maestro.id)" mat-icon-button>
                             <mat-icon>delete</mat-icon>
@@ -103,12 +95,10 @@
                             <mat-icon>edit</mat-icon>
                         </button>
                     </td>
-
-
-
                 </tr>
             </tbody>
         </table>
+
     </div>
 
 </mat-drawer-container>

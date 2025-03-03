@@ -1,12 +1,59 @@
 {
-    "courses": [
-        {
-            "id": "jdsa7D!",
-            "name": "Angular"
-        },
-        {
-            "id": "jkgd891",
-            "title": "HTML"
-        }
-    ]
+  "courses": [
+    {
+      "id": "jdsa7D!",
+      "name": "Angular"
+    },
+    {
+      "id": "jkgd891",
+      "name": "HTML"
+    },
+    {
+      "id": "fdsfgfd",
+      "name": "React"
+    }
+  ],
+  "students": [
+    {
+      "name": "Rodrigo",
+      "lastName": "Rodriguez",
+      "id": "WCaLvPGu",
+      "course": "JavaScript"
+    },
+    {
+      "name": "Eilen",
+      "lastName": "Campos",
+      "id": "4m6Lp0yQ",
+      "course": "Angular"
+    },
+    {
+      "name": "Elisandro",
+      "lastName": "Gonzalez",
+      "id": "hoAMVPnP",
+      "course": "React"
+    },
+    {
+      "id": "ZatNM0SS",
+      "name": "Tobias",
+      "lastName": "Tula",
+      "course": "Angular",
+      "editing": false
+    }
+  ],
+  "teachers": [
+    {
+      "id": "ha1M1v",
+      "name": "Thiago",
+      "lastName": "Perez",
+      "course": "Angular",
+      "editing": false
+    },
+    {
+      "id": "yKJ57r",
+      "name": "Leandro",
+      "lastName": "Martinez",
+      "course": "React",
+      "editing": false
+    }
+  ]
 }

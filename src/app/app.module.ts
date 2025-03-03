@@ -1,10 +1,9 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { ReactiveFormsModule } from '@angular/forms';
 
 
 //Modulos míos
@@ -35,6 +34,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { rootReducer } from './store';
 
 
 
@@ -66,7 +69,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    ReactiveFormsModule,
     SharedModule,
     MatListModule,
     BrowserAnimationsModule,
@@ -75,11 +77,16 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatProgressSpinnerModule,
     MatToolbarModule,
     MatProgressSpinnerModule,
-    MatSidenavModule
+    MatSidenavModule,
+    ReactiveFormsModule,
+    FormsModule,
+    StoreModule.forRoot(rootReducer, {}),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
   ],
   providers: [
     provideAnimationsAsync(),
-    provideHttpClient(withFetch())
+    provideHttpClient(withFetch()),
+
   ],
   bootstrap: [AppComponent]
 })

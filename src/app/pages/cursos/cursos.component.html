@@ -28,7 +28,7 @@
                 <div class="col-md-3">
                     <mat-form-field appearance="fill">
                         <mat-label>Nombre</mat-label>
-                        <input formControlName="nombre" matInput placeholder="Placeholder">
+                        <input formControlName="name" matInput placeholder="Placeholder">
 
                     </mat-form-field>
                 </div>
@@ -66,18 +66,17 @@
             <tbody>
                 <tr *ngFor="let curso of Cursos">
                     <td>
-
-                        <input *ngIf="curso.editing" [value]="curso.nombre || ''"
-                            (input)="onInputChange(curso, 'nombre', $event)" />
-                        <span *ngIf="!curso.editing">{{ curso.nombre }}</span>
+                        <input *ngIf="curso.editing" [value]="curso.name || ''"
+                            (input)="onInputChange(curso, 'name', $event)" />
+                        <span *ngIf="!curso.editing">{{ curso.name }}</span>
                     </td>
-
 
                     <td>
-                        <input *ngIf="curso.editing" [value]="curso.id || ''"
-                            (input)="onInputChange(curso, 'id', $event)" />
+                        <!-- No permitir editar el ID, solo mostrarlo -->
                         <span *ngIf="!curso.editing">{{ curso.id }}</span>
+                        <span *ngIf="curso.editing">{{ curso.id }}</span>
                     </td>
+
                     <td>
                         <button (click)="onDelete(curso.id)" mat-icon-button>
                             <mat-icon>delete</mat-icon>
@@ -89,5 +88,7 @@
                 </tr>
             </tbody>
         </table>
+
+
     </div>
 </mat-drawer-container>

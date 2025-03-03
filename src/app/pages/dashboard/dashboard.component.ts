@@ -1,19 +1,18 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { generarStringAleatorio } from '../../shared/utils';
-import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../core/services/auth.services';
+import { StudentsService } from '../../core/services/students.service';
+import { students } from '../../core/models/students';
 
-
-
-interface Estudiante {
-  nombre: string;
-  apellido: string;
+interface Students {
   id: string;
-  curso: string;
-  editing: boolean;
-
+  name: string;
+  lastName: string;
+  course: string;
+  editing?: boolean;
 }
+
 
 
 @Component({
@@ -22,66 +21,73 @@ interface Estudiante {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
-  showFiller = false;
-
-
+export class DashboardComponent implements OnInit {
   cursoSeleccionado: string = '';
-
-
-  displayedColumns: string[] = ['nombre', 'apellido', 'id', 'curso', 'actions',];
-
+  showFiller = false;
+  displayedColumns: string[] = ['nombre', 'apellido', 'id', 'curso', 'actions'];
   estudiantesForm: FormGroup;
+  estudiantes: students[] = [];
 
-  estudiantes: Estudiante[] = [
-    { nombre: 'Juan', apellido: 'Pérez', id: 'AIqFFUZU', curso: 'Javascript', editing: false },
-    { nombre: 'David', apellido: 'Gallegos', id: 'jeSmYR5e', curso: 'Javascript', editing: false }
-  ];
-
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private studentsService: StudentsService
+  ) {
     this.estudiantesForm = this.fb.group({
-      nombre: [''],
-      apellido: [''],
+      name: [''],
+      lastName: [''],
       id: [''],
-      curso: ['']
+      course: ['']
+    });
+
+  }
+
+  ngOnInit(): void {
+    this.loadStudents();
+  }
+
+  loadStudents(): void {
+    this.studentsService.getStudents().subscribe((data) => {
+      this.estudiantes = data;
     });
   }
 
-  onSubmit() {
-    const nuevoEstudiante: Estudiante = {
+  onSubmit(): void {
+    const nuevoEstudiante: students = {
       ...this.estudiantesForm.value,
       id: generarStringAleatorio(8),
       editing: false
     };
-    this.estudiantes.push(nuevoEstudiante);
-    this.estudiantesForm.reset();
+
+    this.studentsService.addStudent(nuevoEstudiante).subscribe((student) => {
+      this.estudiantes.push(student);
+      this.estudiantesForm.reset();
+    });
   }
 
-  onDelete(id: string) {
-    this.estudiantes = this.estudiantes.filter((el) => el.id !== id);
+  onDelete(id: string): void {
+    this.studentsService.deleteStudentById(id).subscribe(() => {
+      this.estudiantes = this.estudiantes.filter((el) => el.id !== id);
+    });
   }
 
-
-  onEdit(estudiante: Estudiante) {
+  onEdit(estudiante: students): void {
     estudiante.editing = !estudiante.editing;
   }
 
-  onInputChange(estudiante: Estudiante, campo: 'nombre' | 'apellido' | 'id' | 'curso', event: Event) {
+  onInputChange(estudiante: students, campo: 'name' | 'lastName' | 'id' | 'course', event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input) {
-
-      estudiante[campo] = input.value || ''
+      estudiante[campo] = input.value || '';
     }
   }
 
-  onSelectCurso(curso: string) {
-    this.cursoSeleccionado = curso;
-    this.estudiantesForm.get('curso')?.setValue(curso);
+  onSelectCurso(course: string) {
+    this.cursoSeleccionado = course;
+    this.estudiantesForm.get('course')?.setValue(course);
   }
 
   Logout(): void {
-    this.authService.Logout()
+    this.authService.Logout();
   }
-
 }
-

@@ -1,3 +1,3 @@
 export const environment = {
-    baseApiUrl: 'http.//api.com.ar:3000'
+    baseApiUrl: 'http://api.com.ar:3000'
 };
