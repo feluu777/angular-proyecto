@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { teachers } from '../models/teachers';  // Asegúrate de que tengas este modelo
+import { teachers } from '../models/teachers';
 import { environment } from '../../../environments/environment';
 
 @Injectable({

@@ -27,7 +27,7 @@ export class MaestrosComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private authservice: AuthService,
+    public authservice: AuthService,
     private teachersService: TeachersService
   ) {
     this.maestrosForm = this.fb.group({
@@ -84,6 +84,6 @@ export class MaestrosComponent implements OnInit {
   }
 
   Logout(): void {
-    this.authservice.Logout();
+    this.authservice.logout();
   }
 }

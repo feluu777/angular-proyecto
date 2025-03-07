@@ -79,6 +79,6 @@ export class CursosComponent implements OnInit {
   }
 
   Logout(): void {
-    this.authservice.Logout();
+    this.authservice.logout();
   }
 }

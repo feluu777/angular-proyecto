@@ -1,11 +1,13 @@
-import { ActionReducerMap } from "@ngrx/store";
-import { authFeatureName, authReducer, AuthState } from "./auth/auth.reducer";
-import { estudiante } from "../shared/utils";
+import { ActionReducerMap } from '@ngrx/store';
+import { authFeatureName, authReducer, AuthState } from './auth/auth.reducer';
+import { estudianteFeatureKey, EstudiantesState, estudianteReducer } from '../store/estudiante/estudiante.reducer';
 
 export interface RootState {
-    [authFeatureName]: AuthState;,
-    [authFeatureName]: estudiante
+    [authFeatureName]: AuthState;
+    [estudianteFeatureKey]: EstudiantesState;
 }
+
 export const rootReducer: ActionReducerMap<RootState> = {
-    [authFeatureName]: authReducer
-}
+    [authFeatureName]: authReducer,
+    [estudianteFeatureKey]: estudianteReducer,
+};

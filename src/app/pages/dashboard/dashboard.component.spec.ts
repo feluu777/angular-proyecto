@@ -1,7 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { DashboardComponent } from './dashboard.component';
 import { AuthService } from '../../core/services/auth.services';
+import { of } from 'rxjs';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -9,7 +9,8 @@ describe('DashboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DashboardComponent]
+      declarations: [DashboardComponent],
+      providers: [AuthService]
     })
       .compileComponents();
 
@@ -22,26 +23,28 @@ describe('DashboardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  //////////////////
-
-  it('Debe agregar un estudiante', () => {
-    component.estudiantesForm.setValue({ nombre: 'María', apellido: 'López', id: 'gR7NnVQC	', curso: 'Angular' });
+  it('Debe agregar un estudiante', fakeAsync(() => {
+    component.estudiantesForm.setValue({ nombre: 'María', apellido: 'López', id: 'gR7NnVQC', curso: 'Angular' });
     component.onSubmit();
-    expect(component.estudiantes.length).toBe(3);
-  });
+    tick();
+    fixture.detectChanges();
+    component.estudiantes$.subscribe(estudiantes => {
+      expect(estudiantes.length).toBe(3);
+    });
+  }));
 
-  it('Debe eliminar un estudiante', () => {
-    component.onDelete('AIqFFUZU');
-    expect(component.estudiantes.length).toBe(1);
-  });
+  it('Debe eliminar un estudiante', fakeAsync(() => {
+    component.deleteEstudiante('AIqFFUZU');
+    tick();
+    fixture.detectChanges();
+    component.estudiantes$.subscribe(estudiantes => {
+      expect(estudiantes.length).toBe(1);
+    });
+  }));
 
   it('Debe activar el modo edición', () => {
-    const estudiante = component.estudiantes[0];
+    const estudiante = { id: 'gR7NnVQC', name: 'María', lastName: 'López', course: 'Angular', editing: false }; // Ejemplo de estudiante
     component.onEdit(estudiante);
     expect(estudiante.editing).toBeTrue();
   });
-
-
-
 });
-

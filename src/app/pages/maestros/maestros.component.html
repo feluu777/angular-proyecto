@@ -52,7 +52,7 @@
                 </div>
             </div>
             <div (ngSubmit)="onSubmit()">
-                <button mat-raised-button>Enviar</button>
+                <button mat-raised-button [disabled]="!authservice.isAdmin()">Enviar</button>
             </div>
         </form>
 
@@ -80,7 +80,7 @@
                         <span *ngIf="!maestro.editing">{{ maestro.lastName }}</span>
                     </td>
                     <td>
-                        <span>{{ maestro.id }}</span> <!-- El ID no debe ser editable -->
+                        <span>{{ maestro.id }}</span>
                     </td>
                     <td>
                         <input *ngIf="maestro.editing" [value]="maestro.course || ''"
@@ -88,10 +88,10 @@
                         <span *ngIf="!maestro.editing">{{ maestro.course }}</span>
                     </td>
                     <td>
-                        <button (click)="onDelete(maestro.id)" mat-icon-button>
+                        <button [disabled]="!authservice.isAdmin()" (click)="onDelete(maestro.id)" mat-icon-button>
                             <mat-icon>delete</mat-icon>
                         </button>
-                        <button (click)="onEdit(maestro)" class="edit">
+                        <button [disabled]="!authservice.isAdmin()" (click)="onEdit(maestro)" class="edit">
                             <mat-icon>edit</mat-icon>
                         </button>
                     </td>

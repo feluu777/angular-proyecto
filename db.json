@@ -15,28 +15,31 @@
   ],
   "students": [
     {
-      "name": "Rodrigo",
-      "lastName": "Rodriguez",
-      "id": "WCaLvPGu",
-      "course": "JavaScript"
-    },
-    {
-      "name": "Eilen",
-      "lastName": "Campos",
-      "id": "4m6Lp0yQ",
-      "course": "Angular"
-    },
-    {
-      "name": "Elisandro",
-      "lastName": "Gonzalez",
-      "id": "hoAMVPnP",
-      "course": "React"
-    },
-    {
       "id": "ZatNM0SS",
       "name": "Tobias",
       "lastName": "Tula",
       "course": "Angular",
+      "editing": false
+    },
+    {
+      "id": "7aSFglL8",
+      "name": "Elisandro",
+      "lastName": "Passing",
+      "course": "Javascript",
+      "editing": false
+    },
+    {
+      "id": "WGKUW9TK",
+      "name": "Thiago",
+      "lastName": "Hidalgo",
+      "course": "Javascript",
+      "editing": false
+    },
+    {
+      "id": "wFUbyY9A",
+      "name": "Thiago",
+      "lastName": "Calvo",
+      "course": "React",
       "editing": false
     }
   ],

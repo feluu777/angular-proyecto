@@ -1,9 +1,10 @@
+
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { EstudianteState } from './estudiante.reducer';
+import { EstudiantesState } from './estudiante.reducer';
 
-export const selectStudentsState = createFeatureSelector<EstudianteState>('students');
+export const selectEstudiantesState = createFeatureSelector<EstudiantesState>('estudiantes');
 
-export const selectAllStudents = createSelector(
-  selectStudentsState,
+export const selectAllEstudiantes = createSelector(
+  selectEstudiantesState,
   (state) => state.estudiantes
 );

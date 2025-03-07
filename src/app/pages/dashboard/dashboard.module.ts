@@ -15,13 +15,14 @@ import { DashboardComponent } from './dashboard.component';
 import { SharedModule } from '../../shared/shared.module';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
-import { MaestrosComponent } from '../maestros/maestros.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { StoreModule } from '@ngrx/store';
-import { rootReducer } from '../../store';
+import { MatInputModule } from '@angular/material/input';
+import { EffectsModule, EffectSources } from '@ngrx/effects';
+import { EstudianteEffects } from '../../store/estudiante/estudiante.effects';
+
 
 
 
@@ -31,7 +32,6 @@ import { rootReducer } from '../../store';
 @NgModule({
   declarations: [
     DashboardComponent,
-    MaestrosComponent,
   ],
   imports: [
     CommonModule,
@@ -47,8 +47,9 @@ import { rootReducer } from '../../store';
     MatDialogModule,
     MatMenuModule,
     MatSidenavModule,
-    StoreModule.forRoot(rootReducer, {})
-
+    MatInputModule,
+    EffectsModule.forFeature([EstudianteEffects])
+    //EffectsModule.forFeature([EstudianteEffects])
   ]
 })
 export class DashboardModule {
