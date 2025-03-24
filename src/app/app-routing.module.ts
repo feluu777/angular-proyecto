@@ -4,13 +4,14 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 import { MaestrosComponent } from './pages/maestros/maestros.component';
 
-import { authGuard } from './core/guards/auth.guard';
+import { AuthGuard } from './core/guards/auth.guard';
 import { LoginComponent } from './login/login/login.component';
 import { adminGuard } from './core/guards/admin.guard';
 
 const routes: Routes = [
   {
     path: 'pages',
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./pages/pages.module').then((m) => m.PagesModule)
   },
@@ -22,11 +23,7 @@ const routes: Routes = [
     path: '',
     component: LoginComponent
   },
-  {
-    path: 'users',
-    canActivate: [adminGuard],
-    loadChildren: () => import('./pages/users/users.module').then(m => m.UsersModule)
-  }
+
 
 
 ];

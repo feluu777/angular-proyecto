@@ -5,9 +5,7 @@
             <a routerLink="/pages/dashboard" mat-list-item>Estudiantes</a>
             <a routerLink="/pages/maestros" mat-list-item>Maestros</a>
             <a routerLink="/pages/cursos" mat-list-item>Cursos</a>
-            <a routerLink="/users/users" mat-list-item>Usuarios</a>
             <button (click)="Logout()" mat-button>Cerrar Sesión</button>
-
         </mat-nav-list>
     </mat-drawer>
 
@@ -22,19 +20,16 @@
         </mat-toolbar>
         <p appLetraTamano20>Crear cursos</p>
 
-
         <form [formGroup]="cursosForm" (ngSubmit)="onSubmit()" class="container">
             <div class="row">
                 <div class="col-md-3">
                     <mat-form-field appearance="fill">
                         <mat-label>Nombre</mat-label>
                         <input formControlName="name" matInput placeholder="Placeholder">
-
                     </mat-form-field>
                 </div>
 
                 <div class="col-md-3">
-
                     <button type="button" mat-flat-button [matMenuTriggerFor]="menu">Curso</button>
 
                     <mat-menu #menu="matMenu">
@@ -47,11 +42,11 @@
                     </div>
                 </div>
             </div>
-            <div (ngSubmit)="onSubmit()">
-                <button class="error-message" mat-raised-button>Enviar</button>
+
+            <div>
+                <button class="error-message" mat-raised-button type="submit">Enviar</button>
             </div>
         </form>
-
 
         <p appLetraTamano20>Lista de cursos</p>
 
@@ -60,23 +55,20 @@
                 <tr>
                     <th>Nombre</th>
                     <th>ID</th>
-                    <th>Actions</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let curso of Cursos">
+                <tr *ngFor="let curso of Cursos$ | async">
                     <td>
                         <input *ngIf="curso.editing" [value]="curso.name || ''"
                             (input)="onInputChange(curso, 'name', $event)" />
                         <span *ngIf="!curso.editing">{{ curso.name }}</span>
                     </td>
-
                     <td>
-                        <!-- No permitir editar el ID, solo mostrarlo -->
                         <span *ngIf="!curso.editing">{{ curso.id }}</span>
                         <span *ngIf="curso.editing">{{ curso.id }}</span>
                     </td>
-
                     <td>
                         <button (click)="onDelete(curso.id)" mat-icon-button>
                             <mat-icon>delete</mat-icon>
@@ -88,7 +80,6 @@
                 </tr>
             </tbody>
         </table>
-
 
     </div>
 </mat-drawer-container>

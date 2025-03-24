@@ -1,8 +1,8 @@
-export interface users {
+export interface user {
     id: string
     name: string
     email: string
+    rol: string
     accessToken: string
     password: string
-    rol: string
 }

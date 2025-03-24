@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
 import { LoginPayLoad } from "../models/models";
-import { BehaviorSubject, Observable, map } from "rxjs";
-import { users } from "../users";
+import { BehaviorSubject, Observable, of } from "rxjs";
+import { user } from "../users/users";
 import { generarStringAleatorio } from "../../shared/utils";
 import { Router } from '@angular/router';
 import { Store } from "@ngrx/store";
 import { AuthActions } from "../../store/auth/auth.action";
 
-const BD_USERS_FAKE: users[] = [
+const BD_USERS_FAKE: user[] = [
     {
         id: generarStringAleatorio(6),
         name: "Administrador",
@@ -28,10 +28,11 @@ const BD_USERS_FAKE: users[] = [
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-    private _authUser$ = new BehaviorSubject<null | users>(null);
+    private _authUser$ = new BehaviorSubject<null | user>(null);
     authUser$ = this._authUser$.asObservable();
 
-    constructor(private router: Router, private store: Store) { }
+    constructor(private store: Store, private router: Router) { }
+
     login(payload: LoginPayLoad): void {
         const loginResult = BD_USERS_FAKE.find(
             (user) =>
@@ -45,7 +46,7 @@ export class AuthService {
         }
 
         localStorage.setItem('accessToken', loginResult.accessToken);
-        localStorage.setItem('userRole', loginResult.rol); // Guardar el rol en localStorage
+        localStorage.setItem('userRole', loginResult.rol);
 
         this.store.dispatch(AuthActions.setAuthUser({ user: loginResult }));
         this._authUser$.next(loginResult);
@@ -58,26 +59,16 @@ export class AuthService {
         this.router.navigate(['/login']);
     }
 
-    /**
-     * Verifica si el usuario está autenticado.
-     */
-    isAuthenticated(): Observable<boolean> {
-        const storageUser = BD_USERS_FAKE.find(x => x.accessToken === localStorage.getItem('accessToken'));
-        this._authUser$.next(storageUser || null);
-        return this.authUser$.pipe(map((user) => !!user));
+    isAuthenticated(): boolean {
+        return !!localStorage.getItem('accessToken');
     }
 
-    /**
-     * Obtiene el rol del usuario autenticado.
-     */
+
     getUserRole(): string | null {
         const user = this._authUser$.value;
         return user ? user.rol : localStorage.getItem('userRole');
     }
 
-    /**
-     * Verifica si el usuario es administrador.
-     */
     isAdmin(): boolean {
         return this.getUserRole() === 'ADMIN';
     }

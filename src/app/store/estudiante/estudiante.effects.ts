@@ -10,10 +10,9 @@ import { HttpClient } from '@angular/common/http';
 export class EstudianteEffects {
     private actions$ = inject(Actions);
 
-    // Efecto para cargar estudiantes desde la API
     loadEstudiantes$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(EstudianteActions.loadEstudiantes), // Detecta la acción
+            ofType(EstudianteActions.loadEstudiantes),
             mergeMap(() =>
                 this.studentsService.getStudents().pipe(
                     map(estudiantes => EstudianteActions.loadEstudiantesSuccess({ estudiantes })),
@@ -23,7 +22,6 @@ export class EstudianteEffects {
         )
     );
 
-    // Efecto para agregar un estudiante
     addEstudiante$ = createEffect(() =>
         this.actions$.pipe(
             ofType(EstudianteActions.addEstudiante),
@@ -36,7 +34,6 @@ export class EstudianteEffects {
         )
     );
 
-    // Efecto para eliminar un estudiante
     deleteEstudiante$ = createEffect(() =>
         this.actions$.pipe(
             ofType(EstudianteActions.deleteEstudiante),

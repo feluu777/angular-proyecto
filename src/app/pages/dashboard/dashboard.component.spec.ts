@@ -43,7 +43,7 @@ describe('DashboardComponent', () => {
   }));
 
   it('Debe activar el modo edición', () => {
-    const estudiante = { id: 'gR7NnVQC', name: 'María', lastName: 'López', course: 'Angular', editing: false }; // Ejemplo de estudiante
+    const estudiante = { id: 'gR7NnVQC', name: 'María', lastName: 'López', course: 'Angular', editing: false };
     component.onEdit(estudiante);
     expect(estudiante.editing).toBeTrue();
   });

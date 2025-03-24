@@ -11,7 +11,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
-import { DashboardComponent } from './dashboard.component';
 import { SharedModule } from '../../shared/shared.module';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
@@ -22,6 +21,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatInputModule } from '@angular/material/input';
 import { EffectsModule, EffectSources } from '@ngrx/effects';
 import { EstudianteEffects } from '../../store/estudiante/estudiante.effects';
+import { DashboardComponent } from './dashboard.component';
 
 
 
@@ -31,7 +31,7 @@ import { EstudianteEffects } from '../../store/estudiante/estudiante.effects';
 
 @NgModule({
   declarations: [
-    DashboardComponent,
+    DashboardComponent
   ],
   imports: [
     CommonModule,
@@ -49,7 +49,6 @@ import { EstudianteEffects } from '../../store/estudiante/estudiante.effects';
     MatSidenavModule,
     MatInputModule,
     EffectsModule.forFeature([EstudianteEffects])
-    //EffectsModule.forFeature([EstudianteEffects])
   ]
 })
 export class DashboardModule {

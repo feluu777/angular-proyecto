@@ -31,13 +31,14 @@ import { rootReducer } from './store';
 import { DashboardModule } from './pages/dashboard/dashboard.module';
 import { MaestrosComponent } from './pages/maestros/maestros.component';
 import { EffectsModule } from '@ngrx/effects';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    CursosComponent,
-    MaestrosComponent
+    MaestrosComponent,
+    CursosComponent
   ],
   imports: [
     CommonModule,
@@ -59,10 +60,10 @@ import { EffectsModule } from '@ngrx/effects';
     MatSidenavModule,
     ReactiveFormsModule,
     FormsModule,
+    RouterModule,
     StoreModule.forRoot(rootReducer, {}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
 
-    DashboardModule,
 
     EffectsModule.forRoot([]),
   ],

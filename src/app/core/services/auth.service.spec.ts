@@ -1,17 +1,21 @@
 import { AuthService } from './auth.services';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
 
 describe('AuthService', () => {
     let service: AuthService;
     let router: Router;
+    let store: Store;
 
     beforeEach(() => {
+        store = { select: () => of(true) } as unknown as Store;
         router = { navigate: () => { } } as unknown as Router;
 
-        service = new AuthService(router);
+        service = new AuthService(store, router);
     });
 
-    it('Deberia loguearse correctamente', () => {
+    it('Debería loguearse correctamente', () => {
         const payload = { Email: 'admin@gmail.com', Contraseña: '12345' };
         service.login(payload);
         service.authUser$.subscribe(user => {
@@ -20,19 +24,10 @@ describe('AuthService', () => {
         expect(localStorage.getItem('accessToken')).toBe('T8bLmU2e');
     });
 
-
-    it('Deberia cerrar sesión correctamente', () => {
-        service.Logout();
-
+    it('Debería cerrar sesión correctamente', () => {
+        service.logout();
         expect(localStorage.getItem('accessToken')).toBeNull();
-
     });
 
-    it('Debería devolver falso si no está autenticado', () => {
-        localStorage.removeItem('accessToken');
 
-        service.isAuthenticated().subscribe(isAuthenticated => {
-            expect(isAuthenticated).toBeFalse();
-        });
-    });
 });

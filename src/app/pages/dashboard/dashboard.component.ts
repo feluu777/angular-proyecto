@@ -7,11 +7,12 @@ import { students } from '../../core/models/students';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { generarStringAleatorio } from '../../shared/utils';
 import { AuthService } from '../../core/services/auth.services';
+import { StudentsService } from '../../core/services/students.service';
 
 @Component({
   selector: 'app-dashboard',
-  standalone: false,
   templateUrl: './dashboard.component.html',
+  standalone: false,
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
@@ -22,9 +23,9 @@ export class DashboardComponent implements OnInit {
   constructor(
     private store: Store,
     private fb: FormBuilder,
-    public authService: AuthService  // Agregar AuthService aquí
+    public authService: AuthService,
+    private studentsService: StudentsService
   ) {
-    // Inicialización del formulario y otros valores
     this.estudiantesForm = this.fb.group({
       name: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -35,44 +36,56 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(EstudianteActions.loadEstudiantes());
+    this.studentsService.getStudents().subscribe((estudiantes) => {
+      this.store.dispatch(EstudianteActions.loadEstudiantesSuccess({ estudiantes }));
+    });
   }
 
   loadEstudiantes(): void {
-    this.store.dispatch(EstudianteActions.loadEstudiantes()); // Disparar acción para cargar estudiantes
+    this.store.dispatch(EstudianteActions.loadEstudiantes());
   }
 
   addEstudiante(): void {
     if (this.estudiantesForm.valid) {
-      const estudiante: students = {
+      const nuevoEstudiante: students = {
         ...this.estudiantesForm.value,
-        id: generarStringAleatorio(8),  // Generar un id único
-        editing: false  // Si deseas que el nuevo estudiante esté en estado de no edición
+        id: generarStringAleatorio(8),
+        editing: false
       };
-      this.store.dispatch(EstudianteActions.addEstudiante({ estudiante }));
+
+      this.studentsService.addStudent(nuevoEstudiante).subscribe((estudiante) => {
+        this.store.dispatch(EstudianteActions.addEstudiante({ estudiante }));
+      });
+
       this.estudiantesForm.reset();
     }
   }
 
   deleteEstudiante(id: string): void {
-    this.store.dispatch(EstudianteActions.deleteEstudiante({ id })); // Eliminar estudiante
+    this.studentsService.deleteStudentById(id).subscribe(() => {
+      this.store.dispatch(EstudianteActions.deleteEstudiante({ id }));
+    });
   }
-
 
   onInputChange(estudiante: students, campo: keyof students, event: Event): void {
     const inputValue = (event.target as HTMLInputElement).value;
-
-    // Crear una copia del estudiante con el nuevo valor actualizado
     const estudianteActualizado = { ...estudiante, [campo]: inputValue };
 
-    // Despachar la acción para actualizar el estado global en NgRx
     this.store.dispatch(EstudianteActions.editEstudiante({ estudiante: estudianteActualizado }));
   }
 
-
-  onEdit(estudiante: students) {
+  onEdit(estudiante: students): void {
     const estudianteActualizado = { ...estudiante, editing: !estudiante.editing };
+
     this.store.dispatch(EstudianteActions.editEstudiante({ estudiante: estudianteActualizado }));
+
+    if (estudianteActualizado.editing) {
+      this.studentsService.updateStudent(estudianteActualizado).subscribe(
+        (updatedStudent) => {
+          this.store.dispatch(EstudianteActions.editEstudiante({ estudiante: updatedStudent }));
+        }
+      );
+    }
   }
 
 
@@ -80,19 +93,16 @@ export class DashboardComponent implements OnInit {
     this.store.dispatch(EstudianteActions.updateEstudianteCourse({ id, course }));
   }
 
-
   onSelectCurso(Curso: string): void {
-    this.cursoSeleccionado = Curso; // Almacena el curso seleccionado
-    this.estudiantesForm.get('course')?.setValue(Curso); // Establece el valor del curso en el formulario
+    this.cursoSeleccionado = Curso;
+    this.estudiantesForm.get('course')?.setValue(Curso);
   }
 
-
-
   Logout(): void {
-    this.authService.logout()
+    this.authService.logout();
   }
 
   onSubmit(): void {
-    this.addEstudiante(); // Manejar envío del formulario
+    this.addEstudiante();
   }
 }

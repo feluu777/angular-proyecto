@@ -1,11 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
-import { users } from '../../core/users/index';
+import { user } from '../../core/users/users';
 import { AuthActions } from './auth.action';
 
 export const authFeatureName = 'auth';
 
 export interface AuthState {
-    authUser: users | null;
+    authUser: user | null;
 }
 
 const initialState: AuthState = {

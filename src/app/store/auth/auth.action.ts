@@ -1,10 +1,10 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { users } from '../../core/users/index';
+import { user } from '../../core/users/users';
 
 export const AuthActions = createActionGroup({
     source: 'Auth',
     events: {
-        'set auth user': props<{ user: users }>(),
+        'set auth user': props<{ user: user }>(),
         'unset auth user': emptyProps(),
     },
 });
